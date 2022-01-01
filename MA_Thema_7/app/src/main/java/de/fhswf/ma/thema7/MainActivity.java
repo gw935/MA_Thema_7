@@ -35,8 +35,9 @@ public class MainActivity extends AppCompatActivity
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         //sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         //sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE_UNCALIBRATED);
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+        //sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
         //sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR);
 
         xValue = (TextView) findViewById(R.id.xValue);
         yValue = (TextView) findViewById(R.id.yValue);
