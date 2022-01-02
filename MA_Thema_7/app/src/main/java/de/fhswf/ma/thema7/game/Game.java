@@ -4,17 +4,17 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Picture;
+import android.graphics.Point;
 import android.graphics.RectF;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 
 import de.fhswf.ma.thema7.R;
 import de.fhswf.ma.thema7.game.gameobjects.Player;
 import de.fhswf.ma.thema7.util.Constants;
+import de.fhswf.ma.thema7.util.OrientationData;
 
 public class Game extends SurfaceView implements SurfaceHolder.Callback
 {
@@ -22,6 +22,10 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
 
     // TODO: auslagern in eigene Szene
     private Player player;
+    private Point playerPosition;
+    private boolean gameOver = false;
+    private OrientationData orientationData;
+    private long frameTime;
 
     public Game(Context context)
     {
@@ -32,6 +36,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
         Constants.CURRENT_CONTEXT = context;
 
         // TODO: auslagern in eigene Szene
+        // Player is added
         BitmapFactory factory = new BitmapFactory();
         player = new Player(factory.decodeResource(
                 Constants.CURRENT_CONTEXT.getResources(), R.drawable.player),
@@ -42,6 +47,14 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
                         Constants.SCREEN_HEIGHT / 2 + 64
                 )
         );
+        // set Playerposition
+        playerPosition = new Point(Constants.SCREEN_WIDTH / 2 - 64, 3 * Constants.SCREEN_HEIGHT / 4 - 64);
+        player.update(playerPosition);
+
+        // Sensors
+        orientationData = new OrientationData();
+        orientationData.register();
+        frameTime = System.currentTimeMillis();
 
         System.out.println("Game startet");
 
@@ -91,7 +104,50 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
      */
     public void update()
     {
-        player.update();
+        if (!gameOver)
+        {
+            // Constants.INIT_TIME is set in surfaceCreated and used for resuming the game
+            if (frameTime < Constants.INIT_TIME)
+            {
+                frameTime = Constants.INIT_TIME;
+            }
+            // elapsedTime is used for correctly calculating the position regardless of framerate
+            int elapsedTime = (int) (System.currentTimeMillis() - frameTime);
+            frameTime = System.currentTimeMillis();
+
+            if (orientationData.getOutput() != null)
+            {
+                float pitch = orientationData.getOutput()[0];
+                float roll = orientationData.getOutput()[1];
+
+                // TODO: temp anpassen fuer geschwindigkeiten, Sensor infos anschauen fuer besseres verstaendnis
+                int temp = Constants.SCREEN_WIDTH;
+                float xSpeed = roll * Constants.SCREEN_WIDTH / temp;
+                float ySpeed = pitch * Constants.SCREEN_WIDTH / temp;
+
+                playerPosition.x += xSpeed * elapsedTime;
+                playerPosition.y += ySpeed * elapsedTime;
+            }
+
+            // TODO: Wenn Rand beruehrt gameover?
+            if (playerPosition.x < 0)
+            {
+                playerPosition.x = 0;
+            } else if (playerPosition.x > Constants.SCREEN_WIDTH)
+            {
+                playerPosition.x = Constants.SCREEN_WIDTH;
+            }
+
+            if (playerPosition.y < 0)
+            {
+                playerPosition.y = 0;
+            } else if (playerPosition.y > Constants.SCREEN_HEIGHT)
+            {
+                playerPosition.y = Constants.SCREEN_HEIGHT;
+            }
+
+            player.update(playerPosition);
+        }
     }
 
     /**

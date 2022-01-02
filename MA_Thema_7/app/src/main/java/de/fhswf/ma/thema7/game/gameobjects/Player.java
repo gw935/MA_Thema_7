@@ -3,7 +3,6 @@ package de.fhswf.ma.thema7.game.gameobjects;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Picture;
 import android.graphics.Point;
 import android.graphics.RectF;
 
