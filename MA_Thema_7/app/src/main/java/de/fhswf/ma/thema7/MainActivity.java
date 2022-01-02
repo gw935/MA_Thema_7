@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -43,5 +44,8 @@ public class MainActivity extends AppCompatActivity
     public void playGame(View view)
     {
         System.out.println("Play Button pressed");
+
+        Intent intent = new Intent(this, GameActivity.class);
+        startActivity(intent);
     }
 }
