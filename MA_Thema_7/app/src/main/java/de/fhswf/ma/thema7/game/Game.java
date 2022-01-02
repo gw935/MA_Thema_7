@@ -1,18 +1,27 @@
 package de.fhswf.ma.thema7.game;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Picture;
+import android.graphics.RectF;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 
+import de.fhswf.ma.thema7.R;
+import de.fhswf.ma.thema7.game.gameobjects.Player;
 import de.fhswf.ma.thema7.util.Constants;
 
 public class Game extends SurfaceView implements SurfaceHolder.Callback
 {
     private GameThread thread;
+
+    // TODO: auslagern in eigene Szene
+    private Player player;
 
     public Game(Context context)
     {
@@ -21,6 +30,18 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
         getHolder().addCallback(this);
 
         Constants.CURRENT_CONTEXT = context;
+
+        // TODO: auslagern in eigene Szene
+        BitmapFactory factory = new BitmapFactory();
+        player = new Player(factory.decodeResource(
+                Constants.CURRENT_CONTEXT.getResources(), R.drawable.player),
+                new RectF(
+                        Constants.SCREEN_WIDTH / 2 - 64,
+                        Constants.SCREEN_HEIGHT / 2 - 64,
+                        Constants.SCREEN_WIDTH / 2 + 64,
+                        Constants.SCREEN_HEIGHT / 2 + 64
+                )
+        );
 
         System.out.println("Game startet");
 
@@ -70,6 +91,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
      */
     public void update()
     {
+        player.update();
     }
 
     /**
@@ -80,5 +102,8 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
     public void draw(Canvas canvas)
     {
         super.draw(canvas);
+
+        canvas.drawColor(Color.WHITE);
+        player.draw(canvas);
     }
 }
