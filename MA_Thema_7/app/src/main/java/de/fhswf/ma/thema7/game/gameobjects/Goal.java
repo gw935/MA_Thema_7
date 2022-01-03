@@ -28,9 +28,15 @@ public class Goal implements GameObject
                 position.y + 112 / 2);
         this.corners = new Point[3];
         // Positions of the 3 Corners of the Triangle.
-        corners[0] = new Point(position.x - 64, position.y - 56);
-        corners[1] = new Point(position.x + 64, position.y - 56);
-        corners[2] = new Point(position.x, position.y + 56);
+        corners[0] = new Point(position.x - 64, position.y + 56);
+        corners[1] = new Point(position.x + 64, position.y + 56);
+        corners[2] = new Point(position.x, position.y - 56);
+        /*
+        System.out.println("Positon = " + position.x + " , " + position.y);
+        System.out.println("Corner 0 = " + corners[0].x + " , " + corners[0].y);
+        System.out.println("Corner 1 = " + corners[1].x + " , " + corners[1].y);
+        System.out.println("Corner 2 = " + corners[2].x + " , " + corners[2].y);
+        */
         System.out.println("Goal was created.");
     }
 
@@ -69,13 +75,11 @@ public class Goal implements GameObject
     {
         for (int i = 0; i < corners.length; i++)
         {
-            double distance = Math.sqrt(Math.pow(corners[i].x - player.getPosition().x, 2) + Math.pow(corners[i].y - player.getPosition().y, 2));
+            double distance = Math.sqrt(Math.pow((corners[i].x - player.getPosition().x), 2) + Math.pow((corners[i].y - player.getPosition().y), 2));
+            //System.out.println("Distance = " + distance);
             if (distance <= player.getRadius())
             {
                 return true;
-            } else
-            {
-                return false;
             }
         }
         return false;
