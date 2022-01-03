@@ -6,6 +6,8 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
 
+import de.fhswf.ma.thema7.util.Constants;
+
 public class Player implements GameObject
 {
     private Bitmap playerImage;
@@ -17,7 +19,6 @@ public class Player implements GameObject
     {
         this.playerImage = playerImage;
         this.dst = dst;
-        this.position = new Point();
 
         System.out.println("Player was created.");
     }

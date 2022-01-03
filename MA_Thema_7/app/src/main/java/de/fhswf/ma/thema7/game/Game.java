@@ -12,6 +12,7 @@ import android.view.SurfaceView;
 import androidx.annotation.NonNull;
 
 import de.fhswf.ma.thema7.R;
+import de.fhswf.ma.thema7.game.gameobjects.Goal;
 import de.fhswf.ma.thema7.game.gameobjects.Player;
 import de.fhswf.ma.thema7.util.Constants;
 import de.fhswf.ma.thema7.util.OrientationData;
@@ -27,6 +28,9 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
     private OrientationData orientationData;
     private long frameTime;
 
+    private Goal goal;
+    private Point goalPosition;
+
     public Game(Context context)
     {
         super(context);
@@ -38,8 +42,8 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
         // TODO: auslagern in eigene Szene
         // Player is added
         BitmapFactory factory = new BitmapFactory();
-        player = new Player(factory.decodeResource(
-                Constants.CURRENT_CONTEXT.getResources(), R.drawable.player),
+        player = new Player(
+                factory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.player),
                 new RectF(
                         Constants.SCREEN_WIDTH / 2 - 64,
                         Constants.SCREEN_HEIGHT / 2 - 64,
@@ -47,9 +51,10 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
                         Constants.SCREEN_HEIGHT / 2 + 64
                 )
         );
-        // set Playerposition
         playerPosition = new Point(Constants.SCREEN_WIDTH / 2 - 64, 3 * Constants.SCREEN_HEIGHT / 4 - 64);
         player.update(playerPosition);
+
+        goal = new Goal(factory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.game_goal));
 
         // Sensors
         orientationData = new OrientationData();
@@ -150,6 +155,10 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
             }
 
             player.update(playerPosition);
+            if(goal.playerCollide(player))
+            {
+                System.out.println("You Won!!!!!!!!");
+            }
         }
     }
 
@@ -164,5 +173,6 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
 
         canvas.drawColor(Color.WHITE);
         player.draw(canvas);
+        goal.draw(canvas);
     }
 }
