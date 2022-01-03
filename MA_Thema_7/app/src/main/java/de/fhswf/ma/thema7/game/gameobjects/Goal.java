@@ -6,26 +6,26 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
 
-public class Player implements GameObject
+public class Goal implements GameObject
 {
-    private Bitmap playerImage;
+    private Bitmap goalImage;
     private RectF dst;
+    private Point[] corners;
     private Point position;
-    private int radius = 64;
 
-    public Player(Bitmap playerImage, RectF dst)
+    public Goal(Bitmap goalImage, RectF dst)
     {
-        this.playerImage = playerImage;
+        this.goalImage = goalImage;
         this.dst = dst;
+        this.corners = new Point[3];
         this.position = new Point();
-
-        System.out.println("Player was created.");
+        System.out.println("Goal was created.");
     }
 
     @Override
     public void draw(Canvas canvas)
     {
-        canvas.drawBitmap(playerImage, null, dst, new Paint());
+        canvas.drawBitmap(goalImage, null, dst, new Paint());
     }
 
     @Override
@@ -45,6 +45,9 @@ public class Player implements GameObject
                 position.y + dst.height() / 2
         );
         this.position = position;
+        corners[0] = new Point(position.x - 64, position.y - 56);
+        corners[1] = new Point(position.x + 64, position.y - 56);
+        corners[2] = new Point(position.x, position.y + 56);
     }
 
     public RectF getDst()
@@ -57,3 +60,4 @@ public class Player implements GameObject
         this.dst = dst;
     }
 }
+

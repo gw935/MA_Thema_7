@@ -61,6 +61,7 @@ public class OrientationData implements SensorEventListener
         if (sensorEvent.sensor.getType() == Sensor.TYPE_GAME_ROTATION_VECTOR)
         {
             output = sensorEvent.values;
+            //System.out.println("x ist" + output[0]);
         }
     }
 
