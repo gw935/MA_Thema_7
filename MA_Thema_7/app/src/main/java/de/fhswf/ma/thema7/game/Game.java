@@ -120,7 +120,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
             playerPosition.x = Constants.SCREEN_WIDTH - 64;
         }
 
-        // später drauf achten bei älteren geräten bzw. < 2340x1080
+        // spaeter drauf achten bei aelteren geraeten bzw. < 2340x1080
         if (playerPosition.y < 64)
         {
             playerPosition.y = 64;
@@ -161,7 +161,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
                     float roll = orientationData.getOutput()[1];
 
                     // TODO: temp anpassen fuer geschwindigkeiten, Sensor infos anschauen fuer besseres verstaendnis
-                    // edit: fürs erste in ordnung
+                    // edit: fuers erste in ordnung
                     int temp = 200;
                     float xSpeed = roll * Constants.SCREEN_WIDTH / temp;
                     float ySpeed = pitch * Constants.SCREEN_WIDTH / temp;
