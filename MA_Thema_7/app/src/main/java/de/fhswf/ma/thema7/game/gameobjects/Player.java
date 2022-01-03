@@ -56,4 +56,14 @@ public class Player implements GameObject
     {
         this.dst = dst;
     }
+
+    public Point getPosition()
+    {
+        return position;
+    }
+
+    public int getRadius()
+    {
+        return radius;
+    }
 }

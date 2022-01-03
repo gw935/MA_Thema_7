@@ -45,9 +45,32 @@ public class Goal implements GameObject
                 position.y + dst.height() / 2
         );
         this.position = position;
+        // Positions of the 3 Corners of the Triangle.
         corners[0] = new Point(position.x - 64, position.y - 56);
         corners[1] = new Point(position.x + 64, position.y - 56);
         corners[2] = new Point(position.x, position.y + 56);
+    }
+
+    /**
+     * Checks if the player collides with the goal.
+     *
+     * @param player the player.
+     * @return true if player collides.
+     */
+    public boolean playerCollide(Player player)
+    {
+        for (int i = 0; i < corners.length; i++)
+        {
+            double distance = Math.sqrt(Math.pow(corners[i].x - player.getPosition().x, 2) + Math.pow(corners[i].y - player.getPosition().y, 2));
+            if (distance <= player.getRadius())
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+        return false;
     }
 
     public RectF getDst()
