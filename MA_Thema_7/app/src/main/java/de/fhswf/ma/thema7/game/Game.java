@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.RectF;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -25,6 +26,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
     private Player player;
     private Point playerPosition;
     private boolean gameOver = false;
+    private boolean started = false;
     private OrientationData orientationData;
     private long frameTime;
 
@@ -51,7 +53,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
                         Constants.SCREEN_HEIGHT / 2 + 64
                 )
         );
-        playerPosition = new Point(Constants.SCREEN_WIDTH / 2 - 64, 3 * Constants.SCREEN_HEIGHT / 4 - 64);
+        playerPosition = new Point(Constants.SCREEN_WIDTH / 2, 5 * Constants.SCREEN_HEIGHT / 6);
         player.update(playerPosition);
 
         goal = new Goal(factory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.game_goal));
@@ -126,11 +128,10 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
         {
             playerPosition.y = Constants.SCREEN_HEIGHT - 64;
         }
-
-        player.update(playerPosition);
         if (goal.playerCollide(player))
         {
             System.out.println("You Won!!!!!!!!");
+            started = false;
         }
     }
 
@@ -150,24 +151,29 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
             int elapsedTime = (int) (System.currentTimeMillis() - frameTime);
             frameTime = System.currentTimeMillis();
 
-            if (orientationData.getOutput() != null)
+
+            if (started)
             {
-                // pitch & roll are values between -1 and 1
-                float pitch = orientationData.getOutput()[0];
-                float roll = orientationData.getOutput()[1];
+                if (orientationData.getOutput() != null)
+                {
+                    // pitch & roll are values between -1 and 1
+                    float pitch = orientationData.getOutput()[0];
+                    float roll = orientationData.getOutput()[1];
 
-                // TODO: temp anpassen fuer geschwindigkeiten, Sensor infos anschauen fuer besseres verstaendnis
-                // edit: fürs erste in ordnung
-                int temp = 200;
-                float xSpeed = roll * Constants.SCREEN_WIDTH / temp;
-                float ySpeed = pitch * Constants.SCREEN_WIDTH / temp;
+                    // TODO: temp anpassen fuer geschwindigkeiten, Sensor infos anschauen fuer besseres verstaendnis
+                    // edit: fürs erste in ordnung
+                    int temp = 200;
+                    float xSpeed = roll * Constants.SCREEN_WIDTH / temp;
+                    float ySpeed = pitch * Constants.SCREEN_WIDTH / temp;
 
-                playerPosition.x += xSpeed * elapsedTime;
-                playerPosition.y += ySpeed * elapsedTime;
+                    playerPosition.x += xSpeed * elapsedTime;
+                    playerPosition.y += ySpeed * elapsedTime;
+                }
+                collideBounds();
+                player.update(playerPosition);
             }
-
-            collideBounds();
         }
+        // show you lost | you won
     }
 
     /**
@@ -182,5 +188,23 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
         canvas.drawColor(Color.WHITE);
         player.draw(canvas);
         goal.draw(canvas);
+    }
+
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        // auslagern in eigene Szene
+        switch (event.getAction())
+        {
+            // starts game if screen is touched
+            case MotionEvent.ACTION_DOWN:
+            {
+                if (!gameOver)
+                {
+                    started = true;
+                }
+                break;
+            }
+        }
+        return true;
     }
 }
