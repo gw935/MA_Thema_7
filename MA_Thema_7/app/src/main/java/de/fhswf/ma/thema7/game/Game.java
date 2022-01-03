@@ -105,6 +105,36 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
     }
 
     /**
+     * Checks if player collides with bounds.
+     */
+    private void collideBounds()
+    {
+        // TODO: Wenn Rand beruehrt gameover?
+        if (playerPosition.x < 64)
+        {
+            playerPosition.x = 64;
+        } else if (playerPosition.x > Constants.SCREEN_WIDTH - 64)
+        {
+            playerPosition.x = Constants.SCREEN_WIDTH - 64;
+        }
+
+        // später drauf achten bei älteren geräten bzw. < 2340x1080
+        if (playerPosition.y < 64)
+        {
+            playerPosition.y = 64;
+        } else if (playerPosition.y > Constants.SCREEN_HEIGHT - 64)
+        {
+            playerPosition.y = Constants.SCREEN_HEIGHT - 64;
+        }
+
+        player.update(playerPosition);
+        if (goal.playerCollide(player))
+        {
+            System.out.println("You Won!!!!!!!!");
+        }
+    }
+
+    /**
      * Gamelogic is updated
      */
     public void update()
@@ -136,29 +166,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
                 playerPosition.y += ySpeed * elapsedTime;
             }
 
-            // TODO: Wenn Rand beruehrt gameover?
-            if (playerPosition.x < 64)
-            {
-                playerPosition.x = 64;
-            } else if (playerPosition.x > Constants.SCREEN_WIDTH - 64)
-            {
-                playerPosition.x = Constants.SCREEN_WIDTH - 64;
-            }
-
-            // später drauf achten bei älteren geräten bzw. < 2340x1080
-            if (playerPosition.y < 64)
-            {
-                playerPosition.y = 64;
-            } else if (playerPosition.y > Constants.SCREEN_HEIGHT - 64)
-            {
-                playerPosition.y = Constants.SCREEN_HEIGHT - 64;
-            }
-
-            player.update(playerPosition);
-            if(goal.playerCollide(player))
-            {
-                System.out.println("You Won!!!!!!!!");
-            }
+            collideBounds();
         }
     }
 
