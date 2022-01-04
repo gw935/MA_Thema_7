@@ -26,7 +26,10 @@ public class SceneManager implements Scene
 
     public void nextScene()
     {
-        currentScene++;
+        if(currentScene < scenes.size())
+        {
+            currentScene++;
+        }
     }
 
     @Override
