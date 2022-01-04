@@ -16,6 +16,8 @@ import de.fhswf.ma.thema7.util.OrientationData;
 
 public class Level implements Scene
 {
+    private SceneManager sceneManager;
+
     private Player player;
     private Point playerPosition;
     private boolean gameOver = false;
@@ -28,8 +30,10 @@ public class Level implements Scene
     private int wallAmount;
     private WallManager wallManager;
 
-    public Level(int wallAmount)
+    public Level(SceneManager sceneManager,int wallAmount)
     {
+        this.sceneManager = sceneManager;
+
         // Player is added
         BitmapFactory factory = new BitmapFactory();
         player = new Player(
@@ -83,7 +87,8 @@ public class Level implements Scene
         if (goal.playerCollide(player))
         {
             System.out.println("You Won!!!!!!!!");
-            started = false;
+            gameOver = true;
+            sceneManager.nextScene();
         }
     }
 

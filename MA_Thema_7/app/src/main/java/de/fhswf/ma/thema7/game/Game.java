@@ -9,13 +9,14 @@ import android.view.SurfaceView;
 import androidx.annotation.NonNull;
 
 import de.fhswf.ma.thema7.game.scenes.Level;
+import de.fhswf.ma.thema7.game.scenes.SceneManager;
 import de.fhswf.ma.thema7.util.Constants;
 
 public class Game extends SurfaceView implements SurfaceHolder.Callback
 {
     private GameThread thread;
 
-    private Level level1;
+    private SceneManager sceneManager;
 
     public Game(Context context)
     {
@@ -25,7 +26,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
 
         Constants.CURRENT_CONTEXT = context;
 
-        level1 = new Level(1);
+        sceneManager = new SceneManager();
 
         setFocusable(true);
     }
@@ -73,7 +74,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
      */
     public void update()
     {
-        level1.update();
+        sceneManager.update();
     }
 
     /**
@@ -84,12 +85,12 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
     public void draw(Canvas canvas)
     {
         super.draw(canvas);
-        level1.draw(canvas);
+        sceneManager.draw(canvas);
     }
 
     public boolean onTouchEvent(MotionEvent event)
     {
-        level1.recieveTouch(event);
+        sceneManager.recieveTouch(event);
 
         return true;
     }
