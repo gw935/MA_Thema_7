@@ -29,18 +29,23 @@ public class WallManager implements GameObject
         this.gap = gap;
         this.wallImage = wallImage;
 
+        System.out.println("Wallamount: " + wallAmount);
+        System.out.println("ArrayLength: " + walls.length);
+
         generateWalls();
     }
 
     private void generateWalls()
     {
-        int temp = Constants.SCREEN_HEIGHT / walls.length + 1;
-        int currentWallPosition = temp;
+        int temp = Constants.SCREEN_HEIGHT / (walls.length + 1);
+        int currentWallPosition = temp - 128;
 
         Random rand = new Random(System.currentTimeMillis());
+        System.out.println("ScreenHeight = " + Constants.SCREEN_HEIGHT);
 
         for (int i = 0; i < walls.length; i++)
         {
+            System.out.println("Wall generated with y = " + currentWallPosition);
             walls[i] = new Wall(wallImage, rand.nextInt(Constants.SCREEN_WIDTH - gap), currentWallPosition, gap);
 
             currentWallPosition += temp;

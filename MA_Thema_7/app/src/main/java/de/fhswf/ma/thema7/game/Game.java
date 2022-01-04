@@ -58,13 +58,13 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
                         Constants.SCREEN_HEIGHT / 2 + 64
                 )
         );
-        playerPosition = new Point(Constants.SCREEN_WIDTH / 2, 5 * Constants.SCREEN_HEIGHT / 6);
+        playerPosition = new Point(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - 128);
         player.update(playerPosition);
 
         goal = new Goal(factory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.game_goal));
 
         // Walls
-        wallManager = new WallManager(1, 250, factory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.wall));
+        wallManager = new WallManager(3, 250, factory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.wall));
 
         // Sensors
         orientationData = new OrientationData();
