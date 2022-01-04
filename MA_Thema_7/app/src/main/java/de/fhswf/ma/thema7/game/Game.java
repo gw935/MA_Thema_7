@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import de.fhswf.ma.thema7.R;
 import de.fhswf.ma.thema7.game.gameobjects.Goal;
 import de.fhswf.ma.thema7.game.gameobjects.Player;
+import de.fhswf.ma.thema7.game.gameobjects.Wall;
 import de.fhswf.ma.thema7.util.Constants;
 import de.fhswf.ma.thema7.util.OrientationData;
 
@@ -32,6 +33,8 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
 
     private Goal goal;
     private Point goalPosition;
+
+    private Wall wall;
 
     public Game(Context context)
     {
@@ -57,6 +60,9 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
         player.update(playerPosition);
 
         goal = new Goal(factory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.game_goal));
+
+        // Wall
+        wall = new Wall(factory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.wall), 300, 500, 200);
 
         // Sensors
         orientationData = new OrientationData();
@@ -170,6 +176,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
                     playerPosition.y += ySpeed * elapsedTime;
                 }
                 collideBounds();
+                wall.playerCollide(player);
                 player.update(playerPosition);
             }
         }
@@ -188,6 +195,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback
         canvas.drawColor(Color.WHITE);
         player.draw(canvas);
         goal.draw(canvas);
+        wall.draw(canvas);
     }
 
     public boolean onTouchEvent(MotionEvent event)
