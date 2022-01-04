@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.widget.LinearLayout;
 
 import de.fhswf.ma.thema7.game.Game;
 import de.fhswf.ma.thema7.util.Constants;

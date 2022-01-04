@@ -30,7 +30,7 @@ public class Level implements Scene
     private int wallAmount;
     private WallManager wallManager;
 
-    public Level(SceneManager sceneManager,int wallAmount)
+    public Level(SceneManager sceneManager, int wallAmount)
     {
         this.sceneManager = sceneManager;
 
@@ -65,9 +65,10 @@ public class Level implements Scene
     /**
      * Checks if player collides with bounds.
      */
-    private void collideBounds()
+    private void collide()
     {
-        // TODO: Wenn Rand beruehrt gameover?
+        // TODO: if lose change to extra scene and than to main menu
+        // Screenbounds
         if (playerPosition.x < 64)
         {
             playerPosition.x = 64;
@@ -84,11 +85,20 @@ public class Level implements Scene
         {
             playerPosition.y = Constants.SCREEN_HEIGHT - 64;
         }
+
+        // goal
         if (goal.playerCollide(player))
         {
             System.out.println("You Won!!!!!!!!");
             gameOver = true;
             sceneManager.nextScene();
+        }
+
+        // Walls
+        if (wallManager.playerCollide(player))
+        {
+            System.out.println("The Player collided with a wall!!!");
+            gameOver = true;
         }
     }
 
@@ -127,14 +137,9 @@ public class Level implements Scene
                     playerPosition.x += xSpeed * elapsedTime;
                     playerPosition.y += ySpeed * elapsedTime;
                 }
-                collideBounds();
                 player.update(playerPosition);
                 wallManager.update();
-                if(wallManager.playerCollide(player))
-                {
-                    System.out.println("The Player collided with a wall!!!");
-                    gameOver = true;
-                }
+                collide();
             }
         }
         // show you lost | you won
@@ -143,7 +148,6 @@ public class Level implements Scene
     @Override
     public void draw(Canvas canvas)
     {
-        canvas.drawColor(Color.WHITE);
         player.draw(canvas);
         goal.draw(canvas);
         wallManager.draw(canvas);

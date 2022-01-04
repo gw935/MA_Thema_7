@@ -1,9 +1,17 @@
 package de.fhswf.ma.thema7.game.scenes;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
+
+import de.fhswf.ma.thema7.GameActivity;
+import de.fhswf.ma.thema7.MainActivity;
+import de.fhswf.ma.thema7.game.Game;
+import de.fhswf.ma.thema7.util.Constants;
 
 public class SceneManager implements Scene
 {
@@ -16,6 +24,7 @@ public class SceneManager implements Scene
         scenes.add(new Level(this, 1));
         scenes.add(new Level(this, 2));
         scenes.add(new Level(this, 3));
+        scenes.add(new Win(this));
         currentScene = 0;
     }
 
@@ -26,10 +35,16 @@ public class SceneManager implements Scene
 
     public void nextScene()
     {
-        if(currentScene < scenes.size())
+        if (currentScene < scenes.size())
         {
             currentScene++;
         }
+    }
+
+    public void goToMainmenu()
+    {
+        Intent intent = new Intent(Constants.CURRENT_CONTEXT, MainActivity.class);
+        Constants.CURRENT_CONTEXT.startActivity(intent);
     }
 
     @Override
@@ -41,6 +56,7 @@ public class SceneManager implements Scene
     @Override
     public void draw(Canvas canvas)
     {
+        canvas.drawColor(Color.WHITE);
         scenes.get(currentScene).draw(canvas);
     }
 
