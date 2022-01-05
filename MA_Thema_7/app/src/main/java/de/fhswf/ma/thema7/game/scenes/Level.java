@@ -170,9 +170,10 @@ public class Level implements Scene
     @Override
     public void draw(Canvas canvas)
     {
-        wallManager.draw(canvas);
-        goal.draw(canvas);
+
         player.draw(canvas);
+        goal.draw(canvas);
+        wallManager.draw(canvas);
     }
 
     @Override
