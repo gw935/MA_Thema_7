@@ -63,6 +63,20 @@ public class Level implements Scene
     }
 
     /**
+     *
+     * is executed when the player collides with a wall or the bounds and resets player position
+     *
+     */
+    private void restart()
+    {
+        gameOver = false;
+        started = false;
+        playerPosition = new Point(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - 128);
+        player.update(playerPosition);
+
+    }
+
+    /**
      * Checks if player collides with bounds.
      */
     private void collide()
@@ -71,19 +85,22 @@ public class Level implements Scene
         // Screenbounds
         if (playerPosition.x < 64)
         {
-            playerPosition.x = 64;
+            restart();
+            return;
         } else if (playerPosition.x > Constants.SCREEN_WIDTH - 64)
         {
-            playerPosition.x = Constants.SCREEN_WIDTH - 64;
+            restart();
+            return;
         }
 
-        // spaeter drauf achten bei aelteren geraeten bzw. < 2340x1080
         if (playerPosition.y < 64)
         {
-            playerPosition.y = 64;
+            restart();
+            return;
         } else if (playerPosition.y > Constants.SCREEN_HEIGHT - 64)
         {
-            playerPosition.y = Constants.SCREEN_HEIGHT - 64;
+            restart();
+            return;
         }
 
         // goal
@@ -92,13 +109,15 @@ public class Level implements Scene
             System.out.println("You Won!!!!!!!!");
             gameOver = true;
             sceneManager.nextScene();
+            return;
         }
 
         // Walls
         if (wallManager.playerCollide(player))
         {
             System.out.println("The Player collided with a wall!!!");
-            gameOver = true;
+            restart();
+            return;
         }
     }
 
