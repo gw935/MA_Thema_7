@@ -5,7 +5,7 @@ import android.view.SurfaceHolder;
 
 public class GameThread extends Thread
 {
-    public static final int MAX_FPS = 30;
+    public static final int MAX_FPS = 60;
     private double averageFPS;
 
     private SurfaceHolder surfaceHolder;
@@ -41,6 +41,34 @@ public class GameThread extends Thread
             previous = System.nanoTime();
             canvas = null;
 
+            // currentTime - previous in milliseconds
+            elapsedMillis = (System.nanoTime() - previous) / 1000000;
+            // how long the game has to wait for next update
+            waitTime = targetTime - elapsedMillis; // in millis
+
+            try
+            {
+                if (waitTime > 0)
+                {
+                    // the CPU waits the appropriate time so that MAX_FPS are achieved
+                    this.sleep(waitTime);
+                }
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+            // Debug Framecount
+            totalTime += System.nanoTime() - previous;
+            frameCount++;
+            if (frameCount >= MAX_FPS)
+            {
+                averageFPS = 1000 / ((totalTime / frameCount) / 1000000);
+                frameCount = 0;
+                totalTime = 0;
+                System.out.println(averageFPS);
+            }
+
             try
             {
                 // move to Constructor?
@@ -66,33 +94,6 @@ public class GameThread extends Thread
                         e.printStackTrace();
                     }
                 }
-            }
-            // currentTime - previous in milliseconds
-            elapsedMillis = (System.nanoTime() - previous) / 1000000;
-            // how long the game has to wait for next update
-            waitTime = targetTime - elapsedMillis; // in millis
-
-            try
-            {
-                if (waitTime > 0)
-                {
-                    // the CPU waits the appropriate time so that 30 FPS are achieved
-                    this.sleep(waitTime);
-                }
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-
-            // Debug Framecount
-            totalTime += System.nanoTime() - previous;
-            frameCount++;
-            if (frameCount >= MAX_FPS)
-            {
-                averageFPS = 1000 / ((totalTime / frameCount) / 1000000);
-                frameCount = 0;
-                totalTime = 0;
-                System.out.println(averageFPS);
             }
         }
     }
