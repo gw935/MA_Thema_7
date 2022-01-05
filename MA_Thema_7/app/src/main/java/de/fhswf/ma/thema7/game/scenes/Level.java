@@ -45,7 +45,7 @@ public class Level implements Scene
                         Constants.SCREEN_HEIGHT / 2 + 64
                 )
         );
-        playerPosition = new Point(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - 128);
+        playerPosition = new Point(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - 256);
         player.update(playerPosition);
 
         goal = new Goal(factory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.game_goal));
@@ -69,10 +69,12 @@ public class Level implements Scene
      */
     private void restart()
     {
+        System.out.println("Start restart Methode");
         gameOver = false;
         started = false;
-        playerPosition = new Point(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - 128);
+        playerPosition = new Point(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - 256);
         player.update(playerPosition);
+        System.out.println("Ende restart Methode");
 
     }
 
@@ -92,6 +94,7 @@ public class Level implements Scene
             restart();
             return;
         }
+
 
         if (playerPosition.y < 64)
         {
@@ -167,9 +170,9 @@ public class Level implements Scene
     @Override
     public void draw(Canvas canvas)
     {
-        player.draw(canvas);
-        goal.draw(canvas);
         wallManager.draw(canvas);
+        goal.draw(canvas);
+        player.draw(canvas);
     }
 
     @Override
@@ -182,6 +185,7 @@ public class Level implements Scene
             {
                 if (!gameOver)
                 {
+                    System.out.println("Touch received, game should start");
                     started = true;
                 }
                 break;
