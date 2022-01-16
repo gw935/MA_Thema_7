@@ -73,6 +73,10 @@ public class Goal implements GameObject
      */
     public boolean playerCollide(Player player)
     {
+        if(player.getPosition().x > corners[0].x && player.getPosition().x < corners[1].x && player.getPosition().y - player.getRadius() <= corners[0].y)
+        {
+            return true;
+        }
         for (int i = 0; i < corners.length; i++)
         {
             double distance = Math.sqrt(Math.pow((corners[i].x - player.getPosition().x), 2) + Math.pow((corners[i].y - player.getPosition().y), 2));
