@@ -130,6 +130,8 @@ public class Level implements Scene
     @Override
     public void update()
     {
+        float lastXSpeed = 0;
+        float lastYSpeed = 0;
         if (!gameOver)
         {
             // Constants.INIT_TIME is set in surfaceCreated and used for resuming the game
@@ -153,8 +155,21 @@ public class Level implements Scene
                     // TODO: temp anpassen fuer geschwindigkeiten, Sensor infos anschauen fuer besseres verstaendnis
                     // edit: fuers erste in ordnung
                     int temp = 200;
+
+                    if(lastXSpeed == 0 && lastYSpeed == 0)
+                    {
+                        lastXSpeed = roll * Constants.SCREEN_WIDTH / temp;
+                        lastYSpeed = pitch * Constants.SCREEN_WIDTH / temp;
+                    }
+
                     float xSpeed = roll * Constants.SCREEN_WIDTH / temp;
                     float ySpeed = pitch * Constants.SCREEN_WIDTH / temp;
+
+                    xSpeed = (xSpeed + lastXSpeed) / 2;
+                    ySpeed = (ySpeed + lastYSpeed) / 2;
+
+                    lastXSpeed = xSpeed;
+                    lastYSpeed = ySpeed;
 
                     playerPosition.x += xSpeed * elapsedTime;
                     playerPosition.y += ySpeed * elapsedTime;
