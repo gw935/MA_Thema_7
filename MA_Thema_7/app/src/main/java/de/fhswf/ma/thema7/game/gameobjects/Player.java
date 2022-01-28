@@ -13,7 +13,7 @@ public class Player implements GameObject
     private Bitmap playerImage;
     private RectF dst;
     private Point position;
-    private int radius = 64 * Constants.SCALE;
+    private int radius = (int) (64 * Constants.SCALE);
 
     public Player(Bitmap playerImage, RectF dst)
     {

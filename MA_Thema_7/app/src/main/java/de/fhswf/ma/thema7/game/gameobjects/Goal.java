@@ -17,29 +17,31 @@ public class Goal implements GameObject
     private Point[] corners;
     private Point position;
 
-    private int width = 128 * Constants.SCALE;
-    private int height = 112 * Constants.SCALE;
+    private int width = (int) (128 * Constants.SCALE);
+    private int height = (int) (112 * Constants.SCALE);
 
     public Goal(Bitmap goalImage)
     {
         this.goalImage = goalImage;
         this.position = randPosition();
         this.dst = new RectF(
+
                 position.x - (width / 2),
                 position.y - (height / 2),
                 position.x + (width / 2),
                 position.y + (height / 2));
+
         this.corners = new Point[3];
         // Positions of the 3 Corners of the Triangle.
         corners[0] = new Point(position.x - (width / 2), position.y + (height / 2));
         corners[1] = new Point(position.x + (width / 2), position.y + (height / 2));
         corners[2] = new Point(position.x, position.y - (height / 2));
-        /*
+
         System.out.println("Positon = " + position.x + " , " + position.y);
         System.out.println("Corner 0 = " + corners[0].x + " , " + corners[0].y);
         System.out.println("Corner 1 = " + corners[1].x + " , " + corners[1].y);
         System.out.println("Corner 2 = " + corners[2].x + " , " + corners[2].y);
-        */
+
         System.out.println("Goal was created.");
     }
 
@@ -63,8 +65,10 @@ public class Goal implements GameObject
     private Point randPosition()
     {
         Random rand = new Random(System.currentTimeMillis());
+
         int x = rand.nextInt(Constants.SCREEN_WIDTH - width) + (width / 2);
         int y = height / 2;
+
         return new Point(x, y);
     }
 

@@ -24,6 +24,7 @@ public class GameActivity extends AppCompatActivity
         Constants.SCREEN_HEIGHT = dm.heightPixels;
         // 1080 Standard Size
         Constants.SCALE = Constants.SCREEN_WIDTH / 1080;
+        System.out.println("SCALE: " + Constants.SCALE);
         System.out.println("SCREEN_WIDTH " + Constants.SCREEN_WIDTH);
         System.out.println("SCREEN_HEIGHT " + Constants.SCREEN_HEIGHT);
 

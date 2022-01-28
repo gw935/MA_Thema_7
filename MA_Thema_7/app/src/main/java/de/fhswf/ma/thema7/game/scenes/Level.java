@@ -45,7 +45,7 @@ public class Level implements Scene
                         Constants.SCREEN_HEIGHT / 2 + (64 * Constants.SCALE)
                 )
         );
-        playerPosition = new Point(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - (256 * Constants.SCALE));
+        playerPosition = new Point(Constants.SCREEN_WIDTH / 2, (int) (Constants.SCREEN_HEIGHT - (256 * Constants.SCALE)));
         player.update(playerPosition);
 
         goal = new Goal(factory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.game_goal));
