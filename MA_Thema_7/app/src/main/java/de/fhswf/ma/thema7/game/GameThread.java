@@ -31,8 +31,6 @@ public class GameThread extends Thread
         // number of Frames
         long elapsedMillis = 1000 / MAX_FPS;
         long waitTime;
-        int frameCount = 0;
-        long totalTime = 0;
         long targetTime = 1000 / MAX_FPS;
 
         while (running)
@@ -56,17 +54,6 @@ public class GameThread extends Thread
             } catch (Exception e)
             {
                 e.printStackTrace();
-            }
-
-            // Debug Framecount
-            totalTime += System.nanoTime() - previous;
-            frameCount++;
-            if (frameCount >= MAX_FPS)
-            {
-                averageFPS = 1000 / ((totalTime / frameCount) / 1000000);
-                frameCount = 0;
-                totalTime = 0;
-                System.out.println(averageFPS);
             }
 
             try

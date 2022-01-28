@@ -22,15 +22,15 @@ public class Goal implements GameObject
         this.goalImage = goalImage;
         this.position = randPosition();
         this.dst = new RectF(
-                position.x - 128 / 2,
-                position.y - 112 / 2,
-                position.x + 128 / 2,
-                position.y + 112 / 2);
+                position.x - 128 / 2 * Constants.SCALE,
+                position.y - 112 / 2 * Constants.SCALE,
+                position.x + 128 / 2 * Constants.SCALE,
+                position.y + 112 / 2 * Constants.SCALE);
         this.corners = new Point[3];
         // Positions of the 3 Corners of the Triangle.
-        corners[0] = new Point(position.x - 64, position.y + 56);
-        corners[1] = new Point(position.x + 64, position.y + 56);
-        corners[2] = new Point(position.x, position.y - 56);
+        corners[0] = new Point(position.x - (64 * Constants.SCALE), position.y + (56 * Constants.SCALE));
+        corners[1] = new Point(position.x + (64 * Constants.SCALE), position.y + (56 * Constants.SCALE));
+        corners[2] = new Point(position.x, position.y - (56 * Constants.SCALE));
         /*
         System.out.println("Positon = " + position.x + " , " + position.y);
         System.out.println("Corner 0 = " + corners[0].x + " , " + corners[0].y);
@@ -60,8 +60,8 @@ public class Goal implements GameObject
     private Point randPosition()
     {
         Random rand = new Random(System.currentTimeMillis());
-        int x = rand.nextInt(Constants.SCREEN_WIDTH - 128) + 64;
-        int y = 56;
+        int x = rand.nextInt(Constants.SCREEN_WIDTH - (128 * Constants.SCALE)) + (64 * Constants.SCALE);
+        int y = 56 * Constants.SCALE;
         return new Point(x, y);
     }
 

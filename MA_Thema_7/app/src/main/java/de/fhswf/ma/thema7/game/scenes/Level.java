@@ -39,20 +39,20 @@ public class Level implements Scene
         player = new Player(
                 factory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.player),
                 new RectF(
-                        Constants.SCREEN_WIDTH / 2 - 64,
-                        Constants.SCREEN_HEIGHT / 2 - 64,
-                        Constants.SCREEN_WIDTH / 2 + 64,
-                        Constants.SCREEN_HEIGHT / 2 + 64
+                        Constants.SCREEN_WIDTH / 2 - (64 * Constants.SCALE),
+                        Constants.SCREEN_HEIGHT / 2 - (64 * Constants.SCALE),
+                        Constants.SCREEN_WIDTH / 2 + (64 * Constants.SCALE),
+                        Constants.SCREEN_HEIGHT / 2 + (64 * Constants.SCALE)
                 )
         );
-        playerPosition = new Point(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - 256);
+        playerPosition = new Point(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - (256 * Constants.SCALE));
         player.update(playerPosition);
 
         goal = new Goal(factory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.game_goal));
 
         // Walls
         this.wallAmount = wallAmount;
-        wallManager = new WallManager(wallAmount, 250, factory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.wall));
+        wallManager = new WallManager(wallAmount, 250 * Constants.SCALE, factory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.wall));
 
         // Sensors
         orientationData = new OrientationData();
@@ -72,7 +72,7 @@ public class Level implements Scene
         System.out.println("Start restart Methode");
         gameOver = false;
         started = false;
-        playerPosition = new Point(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - 256);
+        playerPosition = new Point(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - (256 * Constants.SCALE));
         player.update(playerPosition);
         System.out.println("Ende restart Methode");
 
@@ -85,22 +85,22 @@ public class Level implements Scene
     {
         // TODO: if lose change to extra scene and than to main menu
         // Screenbounds
-        if (playerPosition.x < 64)
+        if (playerPosition.x < (64 * Constants.SCALE))
         {
             restart();
             return;
-        } else if (playerPosition.x > Constants.SCREEN_WIDTH - 64)
+        } else if (playerPosition.x > Constants.SCREEN_WIDTH - (64 * Constants.SCALE))
         {
             restart();
             return;
         }
 
 
-        if (playerPosition.y < 64)
+        if (playerPosition.y < (64 * Constants.SCALE))
         {
             restart();
             return;
-        } else if (playerPosition.y > Constants.SCREEN_HEIGHT - 64)
+        } else if (playerPosition.y > Constants.SCREEN_HEIGHT - (64 * Constants.SCALE))
         {
             restart();
             return;

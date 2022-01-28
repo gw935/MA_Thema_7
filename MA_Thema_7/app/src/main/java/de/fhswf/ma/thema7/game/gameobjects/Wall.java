@@ -5,13 +5,15 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
+import de.fhswf.ma.thema7.util.Constants;
+
 public class Wall implements GameObject
 {
     private Bitmap wallImage;
     private RectF dst1;
     private RectF dst2;
-    private int wallWidth = 1080;
-    private int wallHeight = 128;
+    private int wallWidth = 1080 * Constants.SCALE;
+    private int wallHeight = 128 * Constants.SCALE;
 
     /**
      * @param wallImage Image used for the walls
