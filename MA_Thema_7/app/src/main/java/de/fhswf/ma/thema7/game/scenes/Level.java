@@ -20,6 +20,9 @@ public class Level implements Scene
 
     private Player player;
     private Point playerPosition;
+    private int distanceBottom = (int) (256 * Constants.SCALE);
+    private int speed = (int) (200 * Constants.SCALE);
+
     private boolean gameOver = false;
     private boolean started = false;
     private OrientationData orientationData;
@@ -29,6 +32,7 @@ public class Level implements Scene
 
     private int wallAmount;
     private WallManager wallManager;
+    private int gapSize = (int) (250 * Constants.SCALE);
 
     public Level(SceneManager sceneManager, int wallAmount)
     {
@@ -36,23 +40,15 @@ public class Level implements Scene
 
         // Player is added
         BitmapFactory factory = new BitmapFactory();
-        player = new Player(
-                factory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.player),
-                new RectF(
-                        Constants.SCREEN_WIDTH / 2 - (64 * Constants.SCALE),
-                        Constants.SCREEN_HEIGHT / 2 - (64 * Constants.SCALE),
-                        Constants.SCREEN_WIDTH / 2 + (64 * Constants.SCALE),
-                        Constants.SCREEN_HEIGHT / 2 + (64 * Constants.SCALE)
-                )
-        );
-        playerPosition = new Point(Constants.SCREEN_WIDTH / 2, (int) (Constants.SCREEN_HEIGHT - (256 * Constants.SCALE)));
+        player = new Player(factory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.player));
+        playerPosition = new Point(Constants.SCREEN_WIDTH / 2, (int) (Constants.SCREEN_HEIGHT - distanceBottom));
         player.update(playerPosition);
 
         goal = new Goal(factory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.game_goal));
 
         // Walls
         this.wallAmount = wallAmount;
-        wallManager = new WallManager(wallAmount, 250 * Constants.SCALE, factory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.wall));
+        wallManager = new WallManager(wallAmount, gapSize, factory.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.wall));
 
         // Sensors
         orientationData = new OrientationData();
@@ -72,7 +68,7 @@ public class Level implements Scene
         System.out.println("Start restart Methode");
         gameOver = false;
         started = false;
-        playerPosition = new Point(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - (256 * Constants.SCALE));
+        playerPosition = new Point(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT - distanceBottom);
         player.update(playerPosition);
         System.out.println("Ende restart Methode");
 
@@ -85,22 +81,22 @@ public class Level implements Scene
     {
         // TODO: if lose change to extra scene and than to main menu
         // Screenbounds
-        if (playerPosition.x < (64 * Constants.SCALE))
+        if (playerPosition.x < player.getRadius())
         {
             restart();
             return;
-        } else if (playerPosition.x > Constants.SCREEN_WIDTH - (64 * Constants.SCALE))
+        } else if (playerPosition.x > Constants.SCREEN_WIDTH - player.getRadius())
         {
             restart();
             return;
         }
 
 
-        if (playerPosition.y < (64 * Constants.SCALE))
+        if (playerPosition.y < player.getRadius())
         {
             restart();
             return;
-        } else if (playerPosition.y > Constants.SCREEN_HEIGHT - (64 * Constants.SCALE))
+        } else if (playerPosition.y > Constants.SCREEN_HEIGHT - player.getRadius())
         {
             restart();
             return;
@@ -152,18 +148,14 @@ public class Level implements Scene
                     float pitch = orientationData.getOutput()[0];
                     float roll = orientationData.getOutput()[1];
 
-                    // TODO: temp anpassen fuer geschwindigkeiten, Sensor infos anschauen fuer besseres verstaendnis
-                    // edit: fuers erste in ordnung
-                    int temp = 200;
-
                     if(lastXSpeed == 0 && lastYSpeed == 0)
                     {
-                        lastXSpeed = roll * Constants.SCREEN_WIDTH / temp;
-                        lastYSpeed = pitch * Constants.SCREEN_WIDTH / temp;
+                        lastXSpeed = roll * Constants.SCREEN_WIDTH / speed;
+                        lastYSpeed = pitch * Constants.SCREEN_WIDTH / speed;
                     }
 
-                    float xSpeed = roll * Constants.SCREEN_WIDTH / temp;
-                    float ySpeed = pitch * Constants.SCREEN_WIDTH / temp;
+                    float xSpeed = roll * Constants.SCREEN_WIDTH / speed;
+                    float ySpeed = pitch * Constants.SCREEN_WIDTH / speed;
 
                     xSpeed = (xSpeed + lastXSpeed) / 2;
                     ySpeed = (ySpeed + lastYSpeed) / 2;

@@ -15,10 +15,15 @@ public class Player implements GameObject
     private Point position;
     private int radius = (int) (64 * Constants.SCALE);
 
-    public Player(Bitmap playerImage, RectF dst)
+    public Player(Bitmap playerImage)
     {
         this.playerImage = playerImage;
-        this.dst = dst;
+        this.dst = new RectF(
+                Constants.SCREEN_WIDTH / 2 - radius,
+                Constants.SCREEN_HEIGHT / 2 - radius,
+                Constants.SCREEN_WIDTH / 2 + radius,
+                Constants.SCREEN_HEIGHT / 2 + radius
+        );
 
         System.out.println("Player was created.");
     }

@@ -25,7 +25,6 @@ public class Goal implements GameObject
         this.goalImage = goalImage;
         this.position = randPosition();
         this.dst = new RectF(
-
                 position.x - (width / 2),
                 position.y - (height / 2),
                 position.x + (width / 2),

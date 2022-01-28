@@ -14,6 +14,8 @@ public class WallManager implements GameObject
     private int gap;
     private Bitmap wallImage;
 
+    private int height = (int) (128 * Constants.SCALE);
+
     public WallManager(int wallAmount, int gap, Bitmap wallImage)
     {
         int amount = wallAmount;
@@ -38,7 +40,7 @@ public class WallManager implements GameObject
     private void generateWalls()
     {
         int temp = Constants.SCREEN_HEIGHT / (walls.length + 1);
-        int currentWallPosition = (int) (temp - (128 * Constants.SCALE));
+        int currentWallPosition = (int) (temp - height);
 
         Random rand = new Random(System.currentTimeMillis());
         System.out.println("ScreenHeight = " + Constants.SCREEN_HEIGHT);
